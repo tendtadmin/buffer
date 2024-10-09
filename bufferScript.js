@@ -1,4 +1,10 @@
-async function createBufferForSelectedFeature() {
+async function createBufferForSelectedFeature(objectId) {
+  // Check if a valid objectId is provided
+  if (!objectId) {
+    alert("No feature selected!");
+    return;
+  }
+
   // URLs for the services
   const pointLayerUrl = 'https://services-ap1.arcgis.com/fmr3nGZRGUm3hVAY/arcgis/rest/services/Development_site_application/FeatureServer/0';
   const polygonLayerUrl = 'https://services-ap1.arcgis.com/fmr3nGZRGUm3hVAY/arcgis/rest/services/Development_site_application/FeatureServer/4';
@@ -7,12 +13,8 @@ async function createBufferForSelectedFeature() {
   // Set the spatial reference for New Zealand Transverse Mercator 2000
   const spatialReference = { wkid: 2193 };
 
-  // Get the selected feature from Experience Builder (this would depend on how you are selecting it)
-  // For this example, I'm assuming you have the OBJECTID of the selected feature
-  const selectedFeatureId = 1; // Replace with the actual OBJECTID of the selected feature
-
   // Step 1: Query the point feature for its geometry and TPR value
-  const queryUrl = `${pointLayerUrl}/query?where=OBJECTID=${selectedFeatureId}&outFields=*&returnGeometry=true&f=json`;
+  const queryUrl = `${pointLayerUrl}/query?where=OBJECTID=${objectId}&outFields=*&returnGeometry=true&f=json`;
   const pointResponse = await fetch(queryUrl);
   const pointData = await pointResponse.json();
 
